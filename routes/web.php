@@ -91,5 +91,3 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 // Route::get('/bikes', [BikeController::class, 'index'])->name('bikes.index');
 Route::resource('bikes',BikeController::class);
-Route::resource('bikes',BikeController::class);
-
