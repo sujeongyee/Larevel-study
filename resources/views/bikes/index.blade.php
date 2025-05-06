@@ -1,8 +1,13 @@
 @extends('layout')
 
 @section('content')
-
+<a href="/bikes/create">생성하기</a>
 <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+  @if (session('success'))
+    <script>
+       alert("{{ session('success') }}");
+    </script>
+  @endif
   @if (count($bikes) > 0)
   @foreach($bikes as $bike)
     <div>
