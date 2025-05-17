@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BikeController;
-
+use App\Http\Controllers\Page\BikePageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +13,20 @@ use App\Http\Controllers\BikeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/bikes', [BikePageController::class, 'index'])->name('bikes.index');
+Route::get('/bikes/create', [BikePageController::class, 'create'])->name('bikes.create');
+Route::get('/bikes/{bike}', [BikePageController::class, 'show'])->name('bikes.show');
+Route::get('/bikes/{bike}/edit', [BikePageController::class, 'edit'])->name('bikes.edit');
+
+
+
+
+
+
+
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -61,17 +74,17 @@ use App\Http\Controllers\BikeController;
 //     }
 // });
 
-Route::get('/store/{category?}/{item?}', function($category=null, $item=null){
-    if (isset($category)) {
-        if (isset($item)) {
-            return  '현재 스토어에서 '.strip_tags($category).' 내 '. $item.' 카테고리를 보고 있습니다.';
-        } else {
-            return  '현재 스토어에서 '.strip_tags($category).' 카테고리를 보고 있습니다.';
-        }
-    } else {
-        return '현재 스토어에서 모든 제품을 보고 있습니다.';
-    }
-});
+// Route::get('/store/{category?}/{item?}', function($category=null, $item=null){
+//     if (isset($category)) {
+//         if (isset($item)) {
+//             return  '현재 스토어에서 '.strip_tags($category).' 내 '. $item.' 카테고리를 보고 있습니다.';
+//         } else {
+//             return  '현재 스토어에서 '.strip_tags($category).' 카테고리를 보고 있습니다.';
+//         }
+//     } else {
+//         return '현재 스토어에서 모든 제품을 보고 있습니다.';
+//     }
+// });
 
 // Route::get('/contact',function () {
 //     return '<h1>contact Page</h1>';
@@ -90,4 +103,4 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 // html에서 laravel 함수 사용 하고 싶으면 {{ }} 쌍중괄호 안에
 
 // Route::get('/bikes', [BikeController::class, 'index'])->name('bikes.index');
-Route::resource('bikes',BikeController::class);
+// Route::resource('bikes',BikeController::class);

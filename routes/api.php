@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BikeApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/bikes', [BikeApiController::class, 'index']);
+Route::post('/bikes', [BikeApiController::class, 'store']);
+Route::get('/bikes/{bike}', [BikeApiController::class, 'show']);
+Route::put('/bikes/{bike}', [BikeApiController::class, 'update']);
+Route::delete('/bikes/{bike}', [BikeApiController::class, 'destroy']);
