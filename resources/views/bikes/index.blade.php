@@ -8,34 +8,46 @@
 </div>
 
 <script>
-
+  const token = localStorage.getItem('token');
   fetchBikes();
   
   let input = document.getElementById('searchInput');
   let listEl = document.getElementById('bikeList');
 
   function fetchBikes(query = '') {
+    
     const url = query ? `/api/bikes?search=${encodeURIComponent(query)}` : '/api/bikes';
 
-    fetch(url)
-      .then(res => res.json())
-      .then(bikes => {
-        if (bikes.length === 0) {
-          listEl.innerHTML = "<p>검색 결과가 없습니다.</p>";
-          return;
-        }
+    fetch(url,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(res => {
+      if (res.status === 401 || res.redirected) {
+        alert("로그인 후 다시 이용해주세요!");
+        window.location.href = '/login';
+        return;
+      }
+      return res.json();
+    })
+    .then(bikes => {
+      if (bikes.length === 0) {
+        listEl.innerHTML = "<p>검색 결과가 없습니다.</p>";
+        return;
+      }
 
-        const list = bikes.map(bike => `
-          <div>
-            <h3><a href="/bikes/${bike.id}">${bike.name}</a></h3>
-            <p>-Made by : ${bike.brand}</p>
-          </div>
-        `).join('');
-        listEl.innerHTML = list;
-      })
-      .catch(() => {
-        listEl.innerHTML = "<p>출력할 내용이 없습니다.</p>";
-      });
+      const list = bikes.map(bike => `
+        <div>
+          <h3><a href="/bikes/${bike.id}">${bike.name}</a></h3>
+          <p>-Made by : ${bike.brand}</p>
+        </div>
+      `).join('');
+      listEl.innerHTML = list;
+    })
+    .catch(() => {
+      listEl.innerHTML = "<p>출력할 내용이 없습니다.</p>";
+    });
   }
 
   input.addEventListener('input', () => {

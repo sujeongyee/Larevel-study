@@ -31,22 +31,30 @@
   function updateForm () {
 
     const id = document.getElementById('bike-id').value;
-
+    const token = localStorage.getItem('token');
     const data = {
       'bike-name': document.getElementById('bike-name').value,
       'bike-price': document.getElementById('bike-price').value,
       'bike-brand': document.getElementById('bike-brand').value
     };
-
+    
     fetch(`/api/bikes/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 401 || res.redirected) {
+        alert("로그인 후 다시 이용해주세요!");
+        window.location.href = '/login';
+        return;
+      }
+      return res.json();
+    })
     .then(res => {
       if (res.result === 'success') {
         alert('상품 수정에 성공했습니다!');

@@ -32,15 +32,23 @@
       'bike-price': document.getElementById('bike-price').value,
       'bike-brand': document.getElementById('bike-brand').value
     };
-
+    const token = localStorage.getItem('token');
     fetch('/api/bikes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 401 || res.redirected) {
+        alert("로그인 후 다시 이용해주세요!");
+        window.location.href = '/login';
+        return;
+      }
+      return res.json();
+    })
     .then(res => {
       console.log(res);
       if (res.reuslt === 'success') {

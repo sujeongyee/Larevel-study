@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Page\BikePageController;
@@ -15,12 +16,14 @@ use App\Http\Controllers\Page\BikePageController;
 */
 
 
+
 Route::get('/bikes', [BikePageController::class, 'index'])->name('bikes.index');
 Route::get('/bikes/create', [BikePageController::class, 'create'])->name('bikes.create');
 Route::get('/bikes/{bike}', [BikePageController::class, 'show'])->name('bikes.show');
 Route::get('/bikes/{bike}/edit', [BikePageController::class, 'edit'])->name('bikes.edit');
 
-
+Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
+Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
 
 
 

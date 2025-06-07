@@ -18,9 +18,22 @@
   const detailEl = document.getElementById("bikeDetail");
   const idField = document.getElementById("bike-id");
   const editLink = document.getElementById("editLink");
-
-  fetch(`/api/bikes/${id}`)
-  .then(res => res.json())
+  const token = localStorage.getItem('token');
+  fetch(`/api/bikes/${id}`,{
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    }
+  })
+  .then(res => {
+      if (res.status === 401 || res.redirected) {
+        alert("로그인 후 다시 이용해주세요!");
+        window.location.href = '/login';
+        return;
+      }
+      return res.json();
+    })
   .then(bike => {
     detailEl.innerHTML = `
       <h3>${bike.name}</h3>
@@ -39,10 +52,17 @@
       fetch(`/api/bikes/${id}`, {
         method: 'DELETE',
         headers: {
-          'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+          'Authorization': `Bearer ${token}`,
         }
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 401 || res.redirected) {
+          alert("로그인 후 다시 이용해주세요!");
+          window.location.href = '/login';
+          return;
+        }
+        return res.json();
+      })
       .then(() => {
         alert('상품 삭제 완료');
         location.href = '/bikes';

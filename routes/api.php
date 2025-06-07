@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BikeApiController;
+use App\Http\Controllers\Api\AuthApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,13 @@ use App\Http\Controllers\Api\BikeApiController;
 //     return $request->user();
 // });
 
-Route::get('/bikes', [BikeApiController::class, 'index']);
-Route::post('/bikes', [BikeApiController::class, 'store']);
-Route::get('/bikes/{bike}', [BikeApiController::class, 'show']);
-Route::put('/bikes/{bike}', [BikeApiController::class, 'update']);
-Route::delete('/bikes/{bike}', [BikeApiController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/bikes', [BikeApiController::class, 'index']);
+    Route::post('/bikes', [BikeApiController::class, 'store']);
+    Route::get('/bikes/{bike}', [BikeApiController::class, 'show']);
+    Route::put('/bikes/{bike}', [BikeApiController::class, 'update']);
+    Route::delete('/bikes/{bike}', [BikeApiController::class, 'destroy']);
+});
+
+Route::post('/register', [AuthApiController::class, 'register']);
+Route::post('/login', [AuthApiController::class, 'login']);

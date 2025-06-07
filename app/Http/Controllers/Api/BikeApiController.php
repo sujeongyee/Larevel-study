@@ -43,8 +43,10 @@ class BikeApiController extends Controller
                 'result' => 'error',
                 'message' => '해당 자전거를 찾을 수 없습니다.'
             ], 404);
-        }
 
+            // abort(404, '해당 자전거를 찾을 수 없습니다.');
+        }
+        // return response()->json(Bike::findOrFail($id));
         return response()->json($bike);
     }
 

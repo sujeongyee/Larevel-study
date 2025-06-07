@@ -23,6 +23,8 @@
           <a href="{{route('bikes.index')}}">Bikes</a>
           <a href="{{route('home.about')}}">About</a>
           <a href="{{route('home.contact')}}">Contact</a>
+          <a href="{{route('show.login')}}">Login</a>
+          <a href="{{route('show.register')}}">Register</a>
         </nav>
       </div>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
